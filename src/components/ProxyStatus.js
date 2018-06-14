@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const StatusBox = styled.div`
   overflow: hidden;
@@ -14,6 +14,12 @@ const StatusText = styled.div`
   line-height: 2.5em;
   text-align: center;
   color: #FFF;
+`;
+
+const activeAnimation = keyframes`
+  0% { background-color: #044e04 }
+  50% { background-color: #047704 }
+  100% { background-color: #044e04 }
 `;
 
 const Status = styled.div`
@@ -32,6 +38,7 @@ const Status = styled.div`
   transition: 0.3s;
   cursor: pointer;
   border: 1px solid #201f1f;
+  animation: ${ props => props.online ? `${activeAnimation} 3.5s infinite` : "none" };
 
   &:before {
     height: 15px;
@@ -56,14 +63,14 @@ const Status = styled.div`
   }
 `;
 
-class ProxyServer extends Component {
+class ProxyStatus extends Component {
   static propTypes = {
-    proxyServer: {
+    proxyServer: PropTypes.shape({
       status: PropTypes.bool
-    },
-    proxyConnected: {
+    }),
+    proxyConnected: PropTypes.shape({
       status: PropTypes.bool
-    }
+    })
   };
 
   static defaultProps = {
@@ -71,7 +78,7 @@ class ProxyServer extends Component {
       status: false
     },
     proxyConnected: {
-      status: false
+      status: true
     }
   };
 
@@ -92,4 +99,4 @@ class ProxyServer extends Component {
   }
 }
 
-export default ProxyServer;
+export default ProxyStatus;

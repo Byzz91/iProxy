@@ -36,7 +36,7 @@ const Line = styled.div`
 
 class ProxyLogging extends Component {
   static propTypes = {
-    logs: PropTypes.Array
+    logs: PropTypes.array
   };
 
   static defaultProps = {
@@ -49,7 +49,7 @@ class ProxyLogging extends Component {
     const printLogs = () => {
       return this.props.logs.map((log, idx) => {
         return (
-          <Line idx={idx + 1} level={log.level}>{log.message}</Line>
+          <Line key={idx} idx={idx + 1} level={log.level}>{log.message}</Line>
         );
       });
     };
