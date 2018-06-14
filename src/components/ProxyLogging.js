@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import * as log from '../actions/LogTypes';
 
 const Logging = styled.div`
-  background-color: background-color: rgba(39, 43, 53);
+  background-color: rgba(39, 43, 53);
   height: 500px;
   box-sizing: border-box;
   min-height: 500px;
