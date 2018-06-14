@@ -8,7 +8,8 @@
   "dependencies": {
     "fallback-exec-sync": "^0.0.1",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "styled-components": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

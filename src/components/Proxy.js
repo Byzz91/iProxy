@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import ProxyConnector from './ProxyConnector';
-import ProxyServer from './ProxyServer';
+import ProxyLogging from './ProxyLogging';
+import ProxyStatus from './ProxyStatus';
+import styled from 'styled-components';
+
+const AppHeader = styled.div`
+  margin: 0;
+  padding: 10px 10px;
+  height: 100px;
+`;
 
 class Proxy extends Component {
-  static propsTypes = {};
-  static defaultProps = {};
-
   render() {
     return (
       <div>
-        <ProxyServer />
-        <ProxyConnector />
+        <AppHeader>
+          <ProxyStatus />
+        </AppHeader>
+        
+        <ProxyLogging />
       </div>
     );
   }
