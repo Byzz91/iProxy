@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import ProxyLogging from './ProxyLogging';
 import ProxyStatus from './ProxyStatus';
 import styled from 'styled-components';
+import ip from 'ip';
+
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+
+import ProxyConnector from '../app_modules/proxy-connector';
 
 const AppHeader = styled.div`
   margin: 0;
@@ -9,18 +15,57 @@ const AppHeader = styled.div`
   height: 100px;
 `;
 
+const mapStateToProps = (state) => {
+  return {
+    statusProxy: state.statusProxy.status,
+    statusConnected: state.statusConnected.status,
+    logs: state.logger.logs
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleProxyServer: (status) => { dispatch(actions.setProxyServer(status)); },
+    handleProxyConnected: (status) => { dispatch(actions.setProxyConnected(status)); },
+    handleAddLog: (level, message) => { dispatch(actions.addLog(level, message)); }
+  }
+};
+
 class Proxy extends Component {
+  proxyConnector;
+
+  constructor(props) {
+    super(props);
+    this.attachStatusConnected = this.attachStatusConnected.bind(this);
+
+    this.proxyConnector = new ProxyConnector('win32');
+    this.proxyConnector.setProxyAddress(`http://${ ip.address() }:8722`);
+  }
+
+  attachStatusConnected() {
+    if (this.props.statusConnected === false) {
+      this.proxyConnector.enable();
+      this.props.handleProxyConnected(true);
+    } else {
+      this.proxyConnector.disable();
+      this.props.handleProxyConnected(false);
+    }
+  }
+
   render() {
     return (
       <div>
         <AppHeader>
-          <ProxyStatus />
+          <ProxyStatus
+            statusProxy={this.props.statusProxy}
+            statusConnected={this.props.statusConnected}
+            attachStatusConnected={this.attachStatusConnected}
+          />
         </AppHeader>
-        
-        <ProxyLogging />
+        <ProxyLogging logs={this.props.logs} />
       </div>
     );
   }
 }
 
-export default Proxy;
+export default connect(mapStateToProps, mapDispatchToProps)(Proxy);

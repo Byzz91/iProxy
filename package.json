@@ -6,15 +6,20 @@
     "react-scripts": "1.1.4"
   },
   "dependencies": {
-    "fallback-exec-sync": "^0.0.1",
+    "electron": "^2.0.2",
+    "ip": "^1.1.5",
+    "node-cmd": "^3.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
     "styled-components": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "elc": "set ELECTRON_START_URL=http://localhost:3000 && electron src/windows/"
   }
 }

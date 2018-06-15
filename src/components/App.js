@@ -6,7 +6,7 @@ injectGlobal`
   body {
     margin: 0;
     padding: 0;
-    background-color: rgba(43, 48, 59);
+    background-color: rgba(43, 48, 59, 1);
   }
 `;
 

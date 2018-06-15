@@ -29,7 +29,7 @@ const Status = styled.div`
   float: left;
   width: 33.333333333%;
   height: 85px;
-  background-color: rgba(39, 43, 53);
+  background-color: rgba(39, 43, 53, 1);
   box-sizing: border-box;
   margin: 5px;
   padding: 5px;
@@ -64,33 +64,35 @@ const Status = styled.div`
 `;
 
 class ProxyStatus extends Component {
+  // static propTypes = {
+  //   proxyServer: PropTypes.shape({
+  //     status: PropTypes.bool
+  //   }),
+  //   proxyConnected: PropTypes.shape({
+  //     status: PropTypes.bool
+  //   })
+  // };
   static propTypes = {
-    proxyServer: PropTypes.shape({
-      status: PropTypes.bool
-    }),
-    proxyConnected: PropTypes.shape({
-      status: PropTypes.bool
-    })
+    statusProxy: PropTypes.bool,
+    statusConnected: PropTypes.bool
   };
 
   static defaultProps = {
-    proxyServer: {
-      status: false
-    },
-    proxyConnected: {
-      status: true
-    }
+    statusProxy: false,
+    statusConnected: false
   };
 
   render() {
     return (
       <StatusBox>
-        <Status online={this.props.proxyServer.status}>
+        <Status online={this.props.statusProxy}>
           <span>Proxy Server</span>
           <StatusText></StatusText>
         </Status>
 
-        <Status online={this.props.proxyConnected.status}>
+        <Status 
+          onClick={this.props.attachStatusConnected} 
+          online={this.props.statusConnected}>
           <span>Proxy Connected</span>
           <StatusText></StatusText>
         </Status>
