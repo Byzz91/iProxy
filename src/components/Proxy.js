@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import ProxyConnector from '../app_modules/proxy-connector';
+import ProxyServer from '../app_modules/proxy-server';
 
 const AppHeader = styled.div`
   margin: 0;
@@ -52,6 +53,10 @@ class Proxy extends Component {
     }
   }
 
+  attachProxyServer() {
+    
+  }
+
   render() {
     return (
       <div>
@@ -60,6 +65,7 @@ class Proxy extends Component {
             statusProxy={this.props.statusProxy}
             statusConnected={this.props.statusConnected}
             attachStatusConnected={this.attachStatusConnected}
+            attachProxyServer={this.attachProxyServer}
           />
         </AppHeader>
         <ProxyLogging logs={this.props.logs} />

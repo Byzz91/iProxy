@@ -27,11 +27,11 @@ const Status = styled.div`
   font-family: "Roboto";
   margin-bottom: 5px;
   float: left;
-  width: 33.333333333%;
+  width: 100%;
   height: 85px;
   background-color: rgba(39, 43, 53, 1);
   box-sizing: border-box;
-  margin: 5px;
+  margin: 5px auto;
   padding: 5px;
   color: #FFF;
   font-weight: 100;
@@ -39,6 +39,7 @@ const Status = styled.div`
   cursor: pointer;
   border: 1px solid #201f1f;
   animation: ${ props => props.online ? `${activeAnimation} 3.5s infinite` : "none" };
+  box-sizing: border-box;
 
   &:before {
     height: 15px;
@@ -58,7 +59,7 @@ const Status = styled.div`
 
   ${ StatusText } {
     &:before {
-      content: "${ props => props.online ? "Click! Disconnect" : "Click! Connect" }";
+      content: "${ props => props.online ? "Click to Online!" : "Click! to Offline!" }";
     }
   }
 `;
@@ -72,6 +73,7 @@ class ProxyStatus extends Component {
   //     status: PropTypes.bool
   //   })
   // };
+
   static propTypes = {
     statusProxy: PropTypes.bool,
     statusConnected: PropTypes.bool
@@ -90,12 +92,14 @@ class ProxyStatus extends Component {
           <StatusText></StatusText>
         </Status>
 
+        {/*
         <Status 
           onClick={this.props.attachStatusConnected} 
           online={this.props.statusConnected}>
           <span>Proxy Connected</span>
           <StatusText></StatusText>
         </Status>
+        */}
       </StatusBox>
     );
   }
