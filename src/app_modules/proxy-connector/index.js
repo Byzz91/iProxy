@@ -25,8 +25,6 @@ class ProxyPlatform {
 
     this.platform = platform;
     this.shell = this.registryPaths[platform];
-    console.log('this.platform', this.platform);
-    console.log('this.shell', this.shell);
   }
 
   ifSyntaxProxyAddress(proxyAddress) {

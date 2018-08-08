@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProxyLogging from './ProxyLogging';
+import * as LOG_TYPES from '../actions/LogTypes';
 import ProxyStatus from './ProxyStatus';
 import styled from 'styled-components';
 import ip from 'ip';
@@ -8,7 +9,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import ProxyConnector from '../app_modules/proxy-connector';
-import ProxyServer from '../app_modules/proxy-server';
+const ipcRenderer = window.require('electron').ipcRenderer;
 
 const AppHeader = styled.div`
   margin: 0;
@@ -18,29 +19,53 @@ const AppHeader = styled.div`
 
 const mapStateToProps = (state) => {
   return {
-    statusProxy: state.statusProxy.status,
+    statusProxy    : state.statusProxy.status,
     statusConnected: state.statusConnected.status,
-    logs: state.logger.logs
+    logs           : state.logger.logs
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleProxyServer: (status) => { dispatch(actions.setProxyServer(status)); },
+    handleProxyServer   : (status) => { dispatch(actions.setProxyServer(status)); },
     handleProxyConnected: (status) => { dispatch(actions.setProxyConnected(status)); },
-    handleAddLog: (level, message) => { dispatch(actions.addLog(level, message)); }
+    handleAddLog        : (message) => { dispatch(actions.addLog(message)); }
   }
 };
 
 class Proxy extends Component {
+  proxyServer;
   proxyConnector;
 
   constructor(props) {
     super(props);
     this.attachStatusConnected = this.attachStatusConnected.bind(this);
+    this.attachProxyServer = this.attachProxyServer.bind(this);
+    this.collectLogs = this.collectLogs.bind(this);
 
     this.proxyConnector = new ProxyConnector('win32');
     this.proxyConnector.setProxyAddress(`http://${ ip.address() }:8722`);
+  }
+
+  componentDidMount() {
+    ipcRenderer.on('sending-logs', (event, logs) => {
+      if (logs.length) {
+        for (let idx in logs) {
+          this.props.handleAddLog({
+            level: LOG_TYPES.SYSTEM,
+            message: logs[idx]
+          });
+        }
+      }
+    });
+
+    setInterval(() => {
+      this.collectLogs();
+    }, 500);
+  }
+
+  collectLogs() {
+    ipcRenderer.send('bring-logs', {});
   }
 
   attachStatusConnected() {
@@ -54,7 +79,7 @@ class Proxy extends Component {
   }
 
   attachProxyServer() {
-    
+    // this.props.handleProxyServer(true);
   }
 
   render() {
@@ -64,6 +89,7 @@ class Proxy extends Component {
           <ProxyStatus
             statusProxy={this.props.statusProxy}
             statusConnected={this.props.statusConnected}
+
             attachStatusConnected={this.attachStatusConnected}
             attachProxyServer={this.attachProxyServer}
           />

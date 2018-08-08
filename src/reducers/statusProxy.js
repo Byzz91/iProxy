@@ -3,10 +3,10 @@ import {
 } from '../actions/ActionTypes';
 
 const initialState = {
-  status: false
+  status: true
 };
 
-export default function statusProxy(state=initialState, action) {
+export default function statusProxy(state = initialState, action) {
   switch (action.type) {
     case STATUS_PROXY_SERVER:
       return {

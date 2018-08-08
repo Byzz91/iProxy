@@ -14,9 +14,9 @@ export function setProxyConnected(status) {
   }
 }
 
-export function addLog(level, message) {
+export function addLog(message) {
   return {
     type: types.LOGGING,
-    log: { level, message }
+    message
   }
 }

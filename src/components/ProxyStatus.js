@@ -40,6 +40,7 @@ const Status = styled.div`
   border: 1px solid #201f1f;
   animation: ${ props => props.online ? `${activeAnimation} 3.5s infinite` : "none" };
   box-sizing: border-box;
+  border-radius: 5px;
 
   &:before {
     height: 15px;
@@ -56,24 +57,9 @@ const Status = styled.div`
     box-shadow: #2b2a2a 0px 5px 5px 0px;
     transform: translatey(3px);
   }
-
-  ${ StatusText } {
-    &:before {
-      content: "${ props => props.online ? "Click to Online!" : "Click! to Offline!" }";
-    }
-  }
 `;
 
 class ProxyStatus extends Component {
-  // static propTypes = {
-  //   proxyServer: PropTypes.shape({
-  //     status: PropTypes.bool
-  //   }),
-  //   proxyConnected: PropTypes.shape({
-  //     status: PropTypes.bool
-  //   })
-  // };
-
   static propTypes = {
     statusProxy: PropTypes.bool,
     statusConnected: PropTypes.bool
@@ -87,9 +73,14 @@ class ProxyStatus extends Component {
   render() {
     return (
       <StatusBox>
-        <Status online={this.props.statusProxy}>
+        <Status 
+          onClick={this.props.attachProxyServer}
+          online={this.props.statusProxy}
+        >
           <span>Proxy Server</span>
-          <StatusText></StatusText>
+          <StatusText>
+            { this.props.statusProxy === false ? 'Proxy was stopped :(' : 'Proxy is running!' }
+          </StatusText>
         </Status>
 
         {/*

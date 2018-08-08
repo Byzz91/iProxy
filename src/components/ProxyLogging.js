@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import * as log from '../actions/LogTypes';
 
 const Logging = styled.div`
   background-color: rgba(39, 43, 53, 1);
@@ -35,29 +33,21 @@ const Line = styled.div`
 `;
 
 class ProxyLogging extends Component {
-  static propTypes = {
-    logs: PropTypes.array
-  };
-
-  static defaultProps = {
-    logs: [
-      { level: log.SYSTEM, message: "Ready for start." },
-    ]
-  };
-
   render() {
-    const printLogs = () => {
-      return this.props.logs.map((log, idx) => {
+    const renderList = () => {
+      let count = this.props.logs.length;
+
+      return this.props.logs.reverse().map((item, idx) => {
         return (
-          <Line key={idx} idx={idx + 1} level={log.level}>{log.message}</Line>
+          <Line key={idx} idx={count - idx} level={item.level}>{item.message}</Line>
         );
       });
     };
-
+  
     return (
       <div>
         <Logging>
-          {printLogs()}
+          { renderList() }
         </Logging>        
       </div>
     );
