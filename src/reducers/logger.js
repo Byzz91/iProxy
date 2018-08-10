@@ -1,4 +1,4 @@
-import { LOGGING } from '../actions/ActionTypes'
+import { LOGGING, LOGGING_CLEAR } from '../actions/ActionTypes'
 
 const initialState = {
   logs: []
@@ -11,6 +11,11 @@ export default function logger(state = initialState, action) {
         ...state,
         logs: [...state.logs, action.message]
       };
+    case LOGGING_CLEAR:
+      return {
+        ...state,
+        logs: []
+      }
     default:
       return state;
   }

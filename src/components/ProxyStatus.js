@@ -36,7 +36,6 @@ const Status = styled.div`
   color: #FFF;
   font-weight: 100;
   transition: 0.3s;
-  cursor: pointer;
   border: 1px solid #201f1f;
   animation: ${ props => props.online ? `${activeAnimation} 3.5s infinite` : "none" };
   box-sizing: border-box;

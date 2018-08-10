@@ -20,3 +20,9 @@ export function addLog(message) {
     message
   }
 }
+
+export function clearLog() {
+  return {
+    type: types.LOGGING_CLEAR
+  }
+}

@@ -3,10 +3,8 @@ import styled from 'styled-components';
 
 const Logging = styled.div`
   background-color: rgba(39, 43, 53, 1);
-  height: 500px;
   box-sizing: border-box;
-  min-height: 500px;
-  max-height: 500px;
+  height: 100%;
   font-size: 0.75em;
   overflow: hidden;
 `;
@@ -18,6 +16,9 @@ const Line = styled.div`
   font-family: Roboto;
   line-height: 1.9em;
   font-size: 1.1em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
   &:before {
     display: block;
@@ -33,23 +34,31 @@ const Line = styled.div`
 `;
 
 class ProxyLogging extends Component {
+  windowLogging;
+
+  componentWillUpdate() {
+    this.windowLogging.scrollTop = this.windowLogging.scrollHeight;
+  }
+
   render() {
     const renderList = () => {
-      let count = this.props.logs.length;
-
-      return this.props.logs.reverse().map((item, idx) => {
+      return this.props.logs.map((item, idx) => {
         return (
-          <Line key={idx} idx={count - idx} level={item.level}>{item.message}</Line>
+          <Line 
+            key={idx} 
+            idx={idx + 1} 
+            level={item.level} 
+            dangerouslySetInnerHTML={ {__html: item.message} }
+          >
+          </Line>
         );
       });
     };
   
     return (
-      <div>
-        <Logging>
-          { renderList() }
-        </Logging>        
-      </div>
+      <Logging innerRef={ (el) => { this.windowLogging = el; } }>
+        { renderList() }
+      </Logging>        
     );
   }
 }
